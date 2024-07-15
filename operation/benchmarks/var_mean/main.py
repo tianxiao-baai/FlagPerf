@@ -74,12 +74,12 @@ def main(config, case_config):
     mape = torch.mean(torch.tensor(mmape))
     mape_std = torch.std(torch.tensor(mmape))
 
-    a = torch.randn(M * 1024 * 1024, N * 1024 * 1024, dtype=dtype[config.dataformat]).to(0)
+    a = torch.randn(M * 50, N * 50, dtype=dtype[config.dataformat]).to(0)
 
     latency_nowarm, latency_warm, cputime, kerneltime = do_test(
         torch.var_mean, (a, ), host_device_sync, config, case_config)
 
-    op2flops = lambda x: x * 3 * M * 1024 * 1024 * N * 1024 * 1024
+    op2flops = lambda x: x * 3 * M * 50 * N * 50
 
     perf_result = cal_perf(cputime, kerneltime, op2flops,
                            case_config.SPECTFLOPS)
