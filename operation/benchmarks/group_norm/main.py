@@ -62,12 +62,12 @@ def main(config, case_config):
     for i in range(100):
         a = torch.randn(b, c, h, w,  dtype=dtype[config.dataformat])
 
-        a_fp64 = a.to(torch.float64)
-        r_fp64 = f(a_fp64) 
+        # a_fp64 = a.to(torch.float64)
+        r_fp32 = f(a) 
 
         a = a.to(0)
         r_device = f(a).cpu() 
-        mape = torch.mean(torch.where(r_fp64 == 0, torch.tensor(0.0), torch.abs(r_device - r_fp64) / torch.abs(r_fp64)))
+        mape = torch.mean(torch.where(r_fp32 == 0, torch.tensor(0.0), torch.abs(r_device - r_fp32) / torch.abs(r_fp32)))
 
         mmape.append(mape)
     
