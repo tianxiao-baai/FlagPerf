@@ -53,8 +53,8 @@ def main(config, case_config):
     h = case_config.H
     w = case_config.W
     g = case_config.G
-    f = torch.nn.GroupNorm(g, c)
     dtype = {"FP32": torch.float32}
+    f = torch.nn.GroupNorm(g, c, dtype=dtype[config.dataformat])
 
     mmape = []
 
