@@ -5,6 +5,21 @@
 # -*- coding: UTF-8 -*-
 import time
 from triton.testing import do_bench as kernel_bench
+import os
+import subprocess
+
+
+def do_correctness(operation):
+    gems_repo = subprocess.check_output(
+        ["find", "/", "-type", "d", "-name", "FlagGems"], text=True).strip()
+
+    p = subprocess.Popen(
+        f"cd {os.path.join(gems_repo, 'tests')} && python3 test_specific_ops.py --name {operation}",
+        shell=True
+        )
+    p.wait()
+
+    return p.returncode
 
 
 def do_test(exec_func, exec_args, sync_func, config, case_config):
