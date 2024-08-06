@@ -60,6 +60,7 @@ def do_test(exec_func, exec_args, sync_func, config, case_config):
 
 
 def cal_perf(cputime, kerneltime, op2flops, spectflops):
+    spectflops = float(spectflops)
     ctus = round(cputime * 1E6, 2)
     ktus = round(kerneltime * 1E6, 2)
 
@@ -78,7 +79,7 @@ def cal_perf(cputime, kerneltime, op2flops, spectflops):
 
 
 def print_result(config, casename, ct, kt, cps, kps, ctflops, ktflops, cfu,
-                 kfu, errmean, errstd, lnm, lm):
+                 kfu, correctness, lnm, lm):
     print(r"[FlagPerf Result]Operation {} in {} at {}:".format(
         casename, config.oplib, config.dataformat))
     print(r"[FlagPerf Result]FLOPS utilization: cputime={}%, kerneltime={}%".
@@ -89,8 +90,8 @@ def print_result(config, casename, ct, kt, cps, kps, ctflops, ktflops, cfu,
     print(
         r"[FlagPerf Result]kerneltime={} us, throughput={} op/s, equals to {} TFLOPS"
         .format(kt, kps, ktflops))
-    print(r"[FlagPerf Result]Relative error with FP64-CPU: mean={}, std={}".
-          format(errmean, errstd))
+    print(r"[FlagPerf Result]Correctness with CPU golden Reference: {}".format(
+        correctness))
     print(
         r"[FlagPerf Result]First time latency: no warmup={} us, warmup={} us".
         format(lnm, lm))
